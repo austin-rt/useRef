@@ -28,15 +28,17 @@ function App() {
     <main>
       <section>
         <form onSubmit={handleSubmit}>
+          <label htmlFor='email'>Email</label>
           <input
             type='text'
-            email='email'
+            name='email'
             placeholder='Email'
             onChange={handleChange}
           />
+          <label htmlFor='password'>Password</label>
           <input
             type='password'
-            password='password'
+            name='password'
             placeholder='Password'
             onChange={handleChange}
           />
