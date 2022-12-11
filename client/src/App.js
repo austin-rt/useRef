@@ -1,48 +1,39 @@
-import { useState, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 
 function App() {
-  const initialFormValues = {
-    email: '',
-    password: '',
-  };
-
-  const [formValues, setFormValues] = useState(initialFormValues);
-
-  const handleChange = (e) => {
-    setFormValues({
-      ...formValues,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const rendersRef = useRef(0);
+  const emailRef = useRef();
+  const passwordRef = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('form submitted');
+    console.log({ email: emailRef.current.value, password: passwordRef.current.value });
   };
 
   useEffect(() => {
-    console.log('rendered');
-  }, [formValues]);
+    rendersRef.current++;
+  });
 
   return (
     <main>
       <section>
+        <h3>Render Count: {rendersRef.current}</h3>
         <form onSubmit={handleSubmit}>
           <label htmlFor='email'>Email</label>
           <input
-            type='text'
+            type='email'
             name='email'
             placeholder='Email'
-            onChange={handleChange}
+            ref={emailRef}
           />
           <label htmlFor='password'>Password</label>
           <input
             type='password'
             name='password'
             placeholder='Password'
-            onChange={handleChange}
+            ref={passwordRef}
           />
-          <button>Login</button>
+          <button type='submit'>Login</button>
         </form>
       </section>
     </main>
