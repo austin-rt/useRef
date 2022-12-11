@@ -143,7 +143,7 @@ From the React Docs:
 <blockquote>
 <code>useRef</code> returns a ref object with a single current property initially set to the initial value you provided.
 
-On the next renders, <code>useRef</code> will return the same object. You can change its <code>current</code> property to store information and read it later. This might remind you of state, but there is an important difference.
+On the next renders, <code>useRef</code> will return the same object. You can change its <code>current</code> property to store information and read it later. This might remind you of <a href="https://beta.reactjs.org/apis/react/useState">state</a>, but there is an important difference.
 
 <strong>Changing a ref does not trigger a re-render.</strong> This means refs are perfect for storing information that doesn’t affect the visual output of your component.
 
@@ -210,3 +210,17 @@ With that working, we no longer need the following:
 Though we aren't directly using it, we should keep the `name` attributes for accessibility.
 
 Now when we type in our inputs, notice the render count. It remains 0. Our component no longer renders with each keystroke!
+
+## `useRef` vs. `useState`
+
+This accurately demonstrates the point raised in the React Docs: updating `useRef` does not trigger a re-render. This is the most significant difference between `useRef` and `useState`.
+
+In addition, you'll notice that when we updated the `current` property on our `ref`, we did so directly. **Never** do this with `useState`. You must always use the `stateSetter` function with `useState` if you wish your UI to _react_ to the change. You can read about this behavior [here](https://beta.reactjs.org/apis/react/useState#ive-updated-the-state-but-the-screen-doesnt-update).
+
+## Resources
+
+- [useRef](https://beta.reactjs.org/docs/hooks-reference.html#useref)
+- [useState](https://beta.reactjs.org/docs/hooks-reference.html#usestate)
+- [React Profiler](https://beta.reactjs.org/blog/2018/09/10/introducing-the-react-profiler#profiling-an-application)
+- [React Dev Tools for Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
+- [React Dev Tools for Firefox](https://addons.mozilla.org/en-US/firefox/addon/react-devtools/)
