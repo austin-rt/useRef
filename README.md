@@ -6,7 +6,7 @@ In this article, we will discuss some common use cases for React's `useRef` Hook
 
 ## Getting Started
 
-In this walkthrough, we will use the Profiler from the React Dev Tools to see how our components are rendering. If you don't have the React Dev Tools and plan to follow along, you'll need to pause and download it now.
+In the walkthrough, we will use the Profiler from the React Dev Tools to see how our components are rendering. If you don't have the React Dev Tools and plan to follow along, you'll need to pause and download it now.
 
 - [Chrome React Dev Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)
 - [Firefox React Dev Tools](https://addons.mozilla.org/en-US/firefox/addon/react-devtools/)
@@ -215,7 +215,86 @@ Now when we type in our inputs, notice the render count. It remains 0. Our compo
 
 This accurately demonstrates the point raised in the React Docs: updating `useRef` does not trigger a re-render. This is the most significant difference between `useRef` and `useState`.
 
-In addition, you'll notice that when we updated the `current` property on our `ref`, we did so directly. **Never** do this with `useState`. You must always use the `stateSetter` function with `useState` if you wish your UI to _react_ to the change. You can read about this behavior [here](https://beta.reactjs.org/apis/react/useState#ive-updated-the-state-but-the-screen-doesnt-update).
+In addition, you'll notice that when we updated the `current` property on our `ref`, we did so directly. **Never** do this with `useState`. Instead, you must always use the `stateSetter` function with `useState` if you wish your UI to _react_ to the change. You can read about this behavior [here](https://beta.reactjs.org/apis/react/useState#ive-updated-the-state-but-the-screen-doesnt-update).
+
+Before concluding this article, I’d like to address what I think is the simplest common use case for `useRef`. Let’s start by moving our render count below our form. We’ll put it in a section tag.
+
+```js
+<section>
+  <h3>Render Count: {rendersRef.current}</h3>
+</section>
+```
+
+Next, we will create a `formRef` for our form and assign it accordingly. Let’s add a button with the text, “Scroll to Render Count”.
+
+```js
+const formRef = useRef();
+...
+<form
+          onSubmit={handleSubmit}
+          ref={formRef}
+        >
+...
+<button>Scroll to Render Count</button>
+```
+
+Then we will initialize `renderCountContainerRef` and assign it to our render count container. Then we will add a button with the text “Scroll to Form”
+
+```js
+const renderCountContainerRef = useRef();
+...
+<section ref={renderCountContainerRef}>
+  <h3>Render Count: {rendersRef.current}</h3>
+  <button>Scroll to Form</button>
+</section>
+```
+
+Let’s create a new function called `scrollToElement` that expects a ref as a parameter and scrolls us to said ref.
+
+```js
+const scrollToElement = (ref) => {
+  ref.current.scrollIntoView({ behavior: 'smooth' });
+};
+```
+
+Now, for each button, we will set the`onClick` property to `scrollToElement` with the appropriate `ref` as its argument.
+
+```js
+<button
+  onClick={() => {
+    scrollToElement(renderCountSectionRef);
+  }}
+>
+  Scroll to Render Count
+</button>
+
+...
+
+<button
+  onClick={() => {
+    scrollToElement(formSectionRef);
+  }}
+>
+  Scroll to Form
+</button>
+```
+
+Now, when we click the buttons, we scroll about the page! Seems a lot like a `Scroll To Top` or `Jump to Recipe` button, doesn't it?
+
+Since this is another scenario where we do not need our changes to re-render the UI, it is a much better use case for `useRef` than `useState`.
+
+<blockquote>
+It should be noted that using inline functions can make for a less performant app, but that's not in the scope of this article.
+</blockquote>
+<br/>
+
+After seeing that we can affect changes on DOM Elements directly with `useRef`, it may be tempting to use this method as an analog to `querySelector` or `getElementBy—`.
+
+This pattern can cause your UI to get out of sync with your state and, in a larger application, will most likely have an unforseen ripple effect. It can introduce bugs that are bizarre and incredibly difficult to track down. That's why this is an anti-pattern that should be avoided when possible. While minimizing renders is very important, it’s **more** important to use React in a _React-ful_ way.
+
+## Conclusions
+
+In this article, we discussed the functionality of `useRef`, how it persists through renders, and how, unliKe `useState`, it does not cause re-renders. We also explored one of the most commone uses of `useRef`: to navigate our user to different DOM elements.
 
 ## Resources
 
