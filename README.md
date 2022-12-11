@@ -83,9 +83,9 @@ So you may be asking, _"What's wrong with this component? It works as expected, 
 
 So have I, friend. So have I.
 
-Open your React Dev Tools and click the Settings cog. Click the 'Profiler' tab and tick on the option, "Record why each component rendered while profiling."
+Open your React Dev Tools and click the Settings cog. Next, click the 'Profiler' tab and tick on the option, "Record why each component rendered while profiling."
 
-Now open the Profiler tab, and you will see a blue dot in the upper left corner. Click it to start profiling. Type in the inputs and click the (now red) dot to stop profiling.
+Now open the Profiler tab, and you will see a blue dot in the upper left corner. Click it to start profiling. Next, type in the inputs and click the (now red) dot to stop profiling.
 
 Click the App component on the left, and you'll see a list of all the renders. You'll notice that the component re-renders for every keystroke.
 
@@ -113,7 +113,7 @@ We will initialize `renders` with `useRef` and set it to 0.
 const rendersRef = useRef(0);
 ```
 
-Then we'll increment `renders` every time the component renders. To do this, we'll use a `useEffect` Hook without the dependency array.
+Then we'll increment `renders` every time the component renders. We'll use a `useEffect` Hook without the dependency array to do this.
 
 ```js
 import { useState, useRef, useEffect } from 'react';
@@ -125,7 +125,7 @@ useEffect(() => {
 });
 ```
 
-When we initialize a `ref`, the Hook creates an object with a `current` property. This is the property we use to update the current value.
+When we initialize a `ref`, the Hook creates an object with a `current` property. `current` is the property we must use to update the `ref`'s value.
 
 Let's render `renders` in our JSX.
 
@@ -136,12 +136,12 @@ Let's render `renders` in our JSX.
           ...
 ```
 
-When we type in the input, we see our render count incrementing in real-time. This is cool but not particularly useful.
+When we type in the input, we see our render count incrementing in real-time. Neat, I guess, but not particularly useful.
 
 From the React Docs:
 
 <blockquote>
-<code>useRef</code> returns a ref object with a single current property initially set to the initial value you provided.
+<code>useRef</code> returns a ref object with a single <code>current</code> property initially set to the initial value you provided.
 
 On the next renders, <code>useRef</code> will return the same object. You can change its <code>current</code> property to store information and read it later. This might remind you of <a href="https://beta.reactjs.org/apis/react/useState">state</a>, but there is an important difference.
 
@@ -151,15 +151,15 @@ On the next renders, <code>useRef</code> will return the same object. You can ch
 
 _information that doesn’t affect the visual output of your component_
 
-Kind of like a login form, huh?
+Kind of like a login form?
 
 ## Refactoring Our Form with `useRef`
 
 Let's start by creating two new `refs` to store our `email` and `password` values and initializing them as empty strings.
 
 ```js
-const emailRef = useRef('');
-const passwordRef = useRef('');
+const emailRef = useRef(null);
+const passwordRef = useRef(null);
 ```
 
 When using the `useRef` Hook to reference a DOM element, associating it is incredibly simple. All we need to do is add a `ref` attribute to the element and provide it our `ref` variable as its value.
@@ -196,7 +196,7 @@ const handleSubmit = (e) => {
 };
 ```
 
-Type in the inputs and click 'Login'. You should have seen your object logged.
+Type in the inputs and click `Login`. You should see your object logged.
 
 With that working, we no longer need the following:
 
@@ -207,13 +207,13 @@ With that working, we no longer need the following:
 - `initialFormValues` object
 - `useState` import
 
-Though we aren't directly using it, we should keep the `name` attributes for accessibility.
+Though we aren't directly using anymore, we should keep the `name` attributes for accessibility.
 
 Now when we type in our inputs, notice the render count. It remains 0. Our component no longer renders with each keystroke!
 
 ## `useRef` vs. `useState`
 
-This accurately demonstrates the point raised in the React Docs: updating `useRef` does not trigger a re-render. This is the most significant difference between `useRef` and `useState`.
+This accurately demonstrates the point raised in the React Docs: updating `useRef` does not trigger a re-render, which is probably the most significant difference between `useRef` and `useState`.
 
 In addition, you'll notice that when we updated the `current` property on our `ref`, we did so directly. **Never** do this with `useState`. Instead, you must always use the `stateSetter` function with `useState` if you wish your UI to _react_ to the change. You can read about this behavior [here](https://beta.reactjs.org/apis/react/useState#ive-updated-the-state-but-the-screen-doesnt-update).
 
@@ -225,7 +225,7 @@ Before concluding this article, I’d like to address what I think is the simple
 </section>
 ```
 
-Next, we will create a `formRef` for our form and assign it accordingly. Let’s add a button with the text, “Scroll to Render Count”.
+Next, we will create a `formRef` for our form and assign it accordingly. Let’s add a button with the text, `Scroll to Render Count`.
 
 ```js
 const formRef = useRef();
@@ -238,7 +238,7 @@ const formRef = useRef();
 <button>Scroll to Render Count</button>
 ```
 
-Then we will initialize `renderCountContainerRef` and assign it to our render count container. Then we will add a button with the text “Scroll to Form”
+Then we will initialize `renderCountContainerRef` and assign it to our render count container. Then we will add a button with the text `Scroll to Form`.
 
 ```js
 const renderCountContainerRef = useRef();
@@ -257,7 +257,12 @@ const scrollToElement = (ref) => {
 };
 ```
 
-Now, for each button, we will set the`onClick` property to `scrollToElement` with the appropriate `ref` as its argument.
+Now, we will set the `onClick` property to `scrollToElement` with the appropriate `ref` as its argument.
+
+<blockquote>
+It should be noted that using inline functions in this way can make for a less performant app, but that's out of the scope of this article.
+</blockquote>
+<br/>
 
 ```js
 <button
@@ -279,18 +284,13 @@ Now, for each button, we will set the`onClick` property to `scrollToElement` wit
 </button>
 ```
 
-Now, when we click the buttons, we scroll about the page! Seems a lot like a `Scroll To Top` or `Jump to Recipe` button, doesn't it?
+Now, when we click the buttons, we scroll about the page! This feels a lot like a `Scroll To Top` or `Jump to Recipe` button, doesn't it?
 
-Since this is another scenario where we do not need our changes to re-render the UI, it is a much better use case for `useRef` than `useState`.
+Since scrolling to a specific element doesn't demand a re-render, it is a much better use case for `useRef` than `useState`.
 
-<blockquote>
-It should be noted that using inline functions can make for a less performant app, but that's not in the scope of this article.
-</blockquote>
-<br/>
+After realizing that we can affect changes on DOM Elements directly with `useRef`, it may be tempting to use this method as an analog to `querySelector` or `getElementBy—`.
 
-After seeing that we can affect changes on DOM Elements directly with `useRef`, it may be tempting to use this method as an analog to `querySelector` or `getElementBy—`.
-
-This pattern can cause your UI to get out of sync with your state and, in a larger application, will most likely have an unforseen ripple effect. It can introduce bugs that are bizarre and incredibly difficult to track down. That's why this is an anti-pattern that should be avoided when possible. While minimizing renders is very important, it’s **more** important to use React in a _React-ful_ way.
+This is an anti-pattern and should be avoided if possible. It can cause your UI to fall out of sync with your state and, in a larger application, will most likely have an unforeseen ripple effect. These bugs are incredibly difficult to track down and treat.
 
 ## Conclusions
 
