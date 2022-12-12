@@ -288,7 +288,7 @@ const scrollToElement = (ref) => {
 Now, we will set the `onClick` property to `scrollToElement` with the appropriate `ref` as its argument.
 
 <blockquote>
-Please note that using inline functions will make for a less performant app, but that's out of the scope of this article.
+Please note that using inline functions will make for a less performant app, but that refactor would require more custom logic and is outside the scope of this article.
 </blockquote>
 <br/>
 
