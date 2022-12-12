@@ -172,7 +172,7 @@ Kind of like a login form?
 
 ## Refactoring Our Form with `useRef`
 
-Let's start by creating two new `refs` to store our `email` and `password` values and initializing them as empty strings.
+Let's start by creating two new `refs` to store our `email` and `password` values and initialize them as `null`.
 
 ```js
 const emailRef = useRef(null);
@@ -240,11 +240,13 @@ This accurately demonstrates the point raised in the React Docs: updating `useRe
 In addition, you'll notice that when we updated the `current` property on our `ref`, we did so directly. **Never** do this with `useState`. Instead, you must always use the setter function if you wish your UI to _react_ to the change. You can read about this behavior [here](https://beta.reactjs.org/apis/react/useState#ive-updated-the-state-but-the-screen-doesnt-update).
 
 <blockquote>
-Yes, I know. We literally just used <code>useRef</code> to affect a change in the DOM. In my defense, try to use <code>useState</code> to track your render count and include itself in that count. If you can figure out a way without causing an infinite re-render, please reach out. I'd like to know how.
+Yes, I know. We literally just used <code>useRef</code> to affect a change in the DOM. In my defense, try to use <code>useState</code> to track your render count and include itself in that count. If you can figure out a way without causing an infinite re-render, please reach out. I'd like you to teach me.
 </blockquote>
 <br/>
 
-Before concluding this article, I’d like to address what I think is the simplest common use case for `useRef`. Let’s start by moving our render count below our form. We’ll put it in a section tag.
+## One Last Use Case
+
+Before concluding this article, I’d like to address what I think is the simplest common use case for `useRef`. Let’s start by moving our render count below the `section` tag containing our form. We’ll put it in a section tag.
 
 ```js
 <section>
@@ -257,12 +259,10 @@ Next, we will create a `formRef` for our form and assign it accordingly. Let’s
 ```js
 const formRef = useRef(null);
 ...
-<form
-  onSubmit={handleSubmit}
-  ref={formRef}
->
+<section ref={formSectionRef}>
+  <form onSubmit={handleSubmit}>
 ...
-</form>
+  </form>
 <button>Scroll to Render Count</button>
 ```
 
@@ -277,7 +277,7 @@ const renderCountSectionRef = useRef(null);
 </section>
 ```
 
-Let’s create a new function called `scrollToElement` that expects a ref as a parameter and scrolls us to said ref.
+Let’s create a new function called `scrollToElement` that expects a `ref` as a parameter and scrolls us to said `ref`.
 
 ```js
 const scrollToElement = (ref) => {
@@ -331,8 +331,8 @@ In this article, we discussed the functionality of `useRef`, how it persists thr
 ## Resources
 
 - [GitHub Repo](https://github.com/austin-rt/useRef)
-- [useRef](https://beta.reactjs.org/docs/hooks-reference.html#useref)
-- [useState](https://beta.reactjs.org/docs/hooks-reference.html#usestate)
+- <code>[useRef](https://beta.reactjs.org/docs/hooks-reference.html#useref)</code>
+- <code>[useState](https://beta.reactjs.org/docs/hooks-reference.html#usestate)</code>
 - [React Profiler](https://beta.reactjs.org/blog/2018/09/10/introducing-the-react-profiler#profiling-an-application)
 - [React Dev Tools for Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
 - [React Dev Tools for Firefox](https://addons.mozilla.org/en-US/firefox/addon/react-devtools/)
