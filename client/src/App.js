@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 function App() {
   const initialFormValues = {
@@ -17,34 +17,31 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('form submitted');
+    console.log(formValues);
   };
-
-  useEffect(() => {
-    console.log('rendered');
-  }, [formValues]);
 
   return (
     <main>
       <section>
         <form onSubmit={handleSubmit}>
+          <label htmlFor='email'>Email</label>
           <input
-            type='text'
-            email='email'
+            type='email'
+            name='email'
             placeholder='Email'
             onChange={handleChange}
           />
+          <label htmlFor='password'>Password</label>
           <input
             type='password'
-            password='password'
+            name='password'
             placeholder='Password'
             onChange={handleChange}
           />
-          <button>Login</button>
+          <button type='submit'>Login</button>
         </form>
       </section>
     </main>
   );
 }
-
 export default App;
