@@ -33,7 +33,7 @@ const initialFormValues = {
 const [formValues, setFormValues] = useState(initialFormValues);
 ```
 
-We then have boilerplate `handleChange` and `handleSumbit` functions, and the `handleSubmit` logs `formValues` to the console.
+We then have boilerplate `handleChange` and `handleSubmit` functions, and the `handleSubmit` logs `formValues` to the console.
 
 ```js
 const handleChange = (e) => {
@@ -91,9 +91,7 @@ Now open the Profiler tab, and you will see a blue dot in the upper left corner.
 
 ![](./assets/gif/useRef-2.gif)
 
-Click the App component on the left inside the `Profiler` tab, and you'll see a list of all the renders. You'll notice that the component re-renders for every keystroke.
-
-Notice the reason the Profiler gives for our re-renders:
+Click the App component on the left inside the `Profiler` tab, and you'll see a list of all the renders. Notice the Profiler provides the same reason for each:
 
 ---
 
@@ -103,11 +101,13 @@ Notice the reason the Profiler gives for our re-renders:
 
 ---
 
+The component re-rendered on every keystroke.
+
 ![](./assets/gif/useRef-3.gif)
 
 ## Minimizing Renders
 
-If our form's sole purpose is to submit the inputs elsewhere, then we don't care what the value is while the user is typing. We only care about the value when the form is submitted.
+If our form's sole purpose is to submit the inputs elsewhere, then we don't need the component to re-render in real time. We don't care what the value is while the user is typing. We only care about the value when the form is submitted.
 
 This may seem harmless in a small application, but it can significantly impact our application as it scales. And part of being a good React developer is being mindful of the performance of our applications by minimizing renders.
 
@@ -123,13 +123,13 @@ We'll start by importing `useRef` in our current import.
 import { useState, useRef } from 'react';
 ```
 
-We will initialize `renders` with `useRef` and set it to 0.
+We will initialize `renders` with `useRef` and set it to 0. When we initialize a `ref`, the Hook creates an object with a `current` property. `current` is the property we must use to update the `ref`'s value.
 
 ```js
 const rendersRef = useRef(0);
 ```
 
-Then we'll increment `renders` every time the component renders. We'll use a `useEffect` Hook without the dependency array to do this.
+We'll use a `useEffect` Hook without the dependency array to increment `renders` every time the component renders. And take note that we change the value of a `ref`, unlike `useState`, we can do so **directly**.
 
 ```js
 import { useState, useRef, useEffect } from 'react';
@@ -140,8 +140,6 @@ useEffect(() => {
   rendersRef.current++;
 });
 ```
-
-When we initialize a `ref`, the Hook creates an object with a `current` property. `current` is the property we must use to update the `ref`'s value. And take note that we change the value of a `ref`, unlike `useState`, we can do so **directly**.
 
 Let's render `renders` in our JSX.
 
@@ -246,7 +244,7 @@ Yes, I know. We literally just used <code>useRef</code> to affect a change in th
 
 ## One Last Use Case
 
-Before concluding this article, I’d like to address what I think is the simplest common use case for `useRef`. Let’s start by moving our render count below the `section` tag containing our form. We’ll put it in a section tag.
+Before concluding this article, I’d like to address what I think is the simplest common use case for `useRef`. Let’s start by moving our render count below the `section` tag containing our form. We’ll put it in its own section tag.
 
 ```js
 <section>
