@@ -238,7 +238,7 @@ This accurately demonstrates the point raised in the React Docs: updating `useRe
 In addition, you'll notice that when we updated the `current` property on our `ref`, we did so directly. **Never** do this with `useState`. Instead, you must always use the setter function if you wish your UI to _react_ to the change. You can read about this behavior [here](https://beta.reactjs.org/apis/react/useState#ive-updated-the-state-but-the-screen-doesnt-update).
 
 <blockquote>
-Yes, I know. We literally just used <code>useRef</code> to affect a change in the DOM. In my defense, try to use <code>useState</code> to track your render count and include itself in that count. If you can figure out a way without causing an infinite re-render, please reach out. I'd like you to teach me.
+Yes, I know. We <strong>literally</strong> just used <code>useRef</code> to affect a change in the DOM. In my defense, try to use <code>useState</code> to track your render count and include itself in that count. If you can figure out a way without causing an infinite re-render, please reach out. I'd like you to teach me.
 </blockquote>
 <br/>
 
