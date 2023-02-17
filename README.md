@@ -388,15 +388,17 @@ through renders, and how, unlike `useState`, it does not cause re-renders. We
 also explored one of the most common uses of `useRef`: to navigate our user to
 different DOM elements.
 
-> I’m always looking for new friends and colleagues. If you found this article
-> helpful and would like to connect, you can find me at any of my homes on the
-> web.
->
-> [GitHub](https://github.com/austin-rt) |
-> [Twitter](https://twitter.com/0xStink) |
-> [LinkedIn](https://www.linkedin.com/in/austinrt) |
-> [Website](https://austinrt.io) | [Medium](https://austinrt.medium.com/) |
-> [Dev.to](https://dev.to/austinrt)
+<hr/>
+I’m always looking for new friends and colleagues. If you found this article
+helpful and would like to connect, you can find me at any of my homes on the
+web.
+
+[GitHub](https://github.com/austin-rt) | [Twitter](https://twitter.com/0xStink)
+| [LinkedIn](https://www.linkedin.com/in/austinrt) |
+[Website](https://austinrt.io) | [Medium](https://austinrt.medium.com/) |
+[Dev.to](https://dev.to/austinrt)
+
+<hr/>
 
 ## Resources
 
