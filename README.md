@@ -1,4 +1,4 @@
-# Demystifying React Hooks – useRef
+# Demystifying React Hooks – `useRef`
 
 ![header](./assets/png/useRef-header-small.png)
 
